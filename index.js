@@ -34,10 +34,13 @@ let express = require('express')
         let tipo = req.params.tipo
         let qnt = req.params.quantidade
         let pg = req.params.pagina
-        if(qnt > 50){
-            
-        }
-        let pokemon = await bd.query("SELECT tipo FROM pokemon WHERE tipo = ? LIMIT ?",[tipo],[qnt])
+        let pokemon = await bd.query("SELECT tipo FROM pokemon WHERE tipo = ? LIMIT ?",[tipo, qnt])
+    })
+
+    app.get('/pokemon/lista/:numeroDaGeracao', async (req,res) =>{
+        let nG = req.params.numeroDaGeracao
+        let geracao = await bd.query("SELECT nome FROM pokemon WHERE geracao = ?",[nG])
+        return res.status(200).json(geracao)
     })
 
     app.listen(porta, () => {
