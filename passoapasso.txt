@@ -1,0 +1,81 @@
+- > Abrir terminal
+- > digitar os comandos:
+- > npm init
+- > preencher as informaçoes solicitadas
+- > instalar pacotes: express, cors e nodemon
+- > npm i express cors nodemon
+- > no arqivo "package JSON", instalar a seguinte linha
+dentro do script:
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+
+- > crie o arquivo index.js com, o seguinte conteudo:
+    let express = require('express')
+    let cors = require('cors')
+
+    let porta = 3000
+
+    let app = express()
+
+    app.use(cors())
+    app.use(express.json())
+
+    app.get('/',(req, res) =>{
+        return res.status(200)
+    })
+
+    app.listen(porta, () => {
+        console.log("Rodando em http://localhost:"+porta)
+    })
+
+- > para rodar o servidor, digite no terminal
+- > npm start
+
+- > serveless-mysql
+
+app.get('/artistas', (req, res) => {
+    let nomes = [];
+    for (let artista of bd) {
+        nomes.push(artista["nome"])
+    }
+    return res.status(200).json(nomes);
+})
+
+app.get('/artista/:nome', (req,res) =>{
+    let nome = req.params.nome
+    for (let i = 0; i < bd.length; i++) {
+        if(nome == bd[i].nome){
+            return res.status(200).json({artista : bd[i]})
+        }
+    }
+})
+// app.get('/produtos', (req, res) => {
+
+//     return res
+//         .status(200)
+//         .json({ produtos: produtos})
+// })
+
+//dois pontos guarda o valor em uma variável
+// app.get('/produto/:id', (req, res) => {
+//     let id = req.params.id;
+
+//     for (let i=0; i < produtos.length; i++) {
+//         if(produtos[i].id == id)
+//         return res
+//         .status(200)
+//         .json({produto: produtos.find(item => item.id == id)})
+//     }
+    
+// })
+app.get('/album/:artista', (req,res) =>{
+    let artista = req.params.artista
+    for(let i=0;i <bd.length;i++){
+        if(artista == bd[i].nome){
+            for(let j = 0; j < bd[i].albums.length; j++){
+                return res.status(200).json({nome: bd[i].albums[j]
+            })
+            }
+        }
+    }
+})
